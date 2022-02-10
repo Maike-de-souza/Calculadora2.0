@@ -1,0 +1,52 @@
+Função construtora
+function Calculadora(){//Função construtora
+this.display = document.querySelector('.display')
+
+this.inicia = () =>{
+    this.capturaCliques();
+    this.capturaEnter();
+}
+
+this.capturaEnter = ()=>{
+document.addEventListener('keyup', e =>{
+if(e.keyCode !== 13) return
+    this.realizaConta()
+
+})
+}
+this.capturaCliques = () =>{
+    document.addEventListener('click',e =>{
+        const el = e.target
+        //Pegando o evento do botão, pegando pela classe,e contais diz se contem tal elemento
+        if(el.classList.contains('btn-num')) this.addNumDisplay(el)
+        if(el.classList.contains('btn-clear')) this.clear()
+        if(el.classList.contains('btn-del')) this.deleta()
+        if(el.classList.contains('btn-eq')) this.realizaConta()
+
+    })
+}
+
+this.addNumDisplay = el => {
+    this.display.value += el.innerText
+    this.display.focus()//Mudando o foco das teclas para o display
+}
+this.clear = ()=> this.display.value = ''
+this.deleta = () => this.display.value = this.display.value.slice(0, -1)//Deletando 1 elemento por vez
+this.realizaConta = () =>{
+    try{
+     const conta = eval(this.display.value)//Verificando se é uma conta valida
+     if(!conta){
+         alert('Conta invalida')
+         return
+     }
+
+     this.display.value = conta
+
+    }catch(e){
+        alert('Conta invalida')
+        return
+    }
+}
+}
+let calculadora = new Calculadora();
+calculadora.inicia()
